@@ -14,7 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.sunbase.javaassessment.entity.User;
 import com.sunbase.javaassessment.service.UserService;
 
-import ch.qos.logback.core.model.Model;
+
 
 @Controller
 @RequestMapping("/users")
@@ -33,7 +33,7 @@ public class UserController {
     }
 
     @GetMapping("/new")
-    public ModelAndView showNewUserForm(Model model) {
+    public ModelAndView showNewUserForm() {
     	ModelAndView mav= new ModelAndView();
         mav.addObject("user", new User());
         mav.setViewName("new-user");
@@ -47,7 +47,7 @@ public class UserController {
     }
 
     @GetMapping("/edit/{id}")
-    public ModelAndView showEditUserForm(@PathVariable("id") Integer id, Model model) {
+    public ModelAndView showEditUserForm(@PathVariable("id") Integer id) {
     	ModelAndView mav= new ModelAndView();
         mav.addObject("user", userService.getUserById(id));
         mav.setViewName("edit-user");
@@ -58,7 +58,8 @@ public class UserController {
     public String updateUser(@PathVariable("id") Integer id, @ModelAttribute
     		("user") User user) {
         user.setId(id);
-        userService.saveUser(user);
+        userService.updateUser(user);
+       
         return "redirect:/users";
     }
 

@@ -1,6 +1,13 @@
 package com.sunbase.javaassessment.entity;
 
+import java.util.Collection;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -16,15 +23,36 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Table(name= "user")
-public class User {
+public class User implements UserDetails{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String firstName;
     private String lastName;
     private String email;
+    private String password;
     private String phone;
-    private String address;
+    private String street;
+    private String city;
+    private String state;
+    private String country;
+    @Enumerated(EnumType.STRING)
+    private Role role;
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		
+		return role.getGrantedAuthorities() ;
+	}
+	@Override
+	public String getPassword() {
+		
+		return password;
+	}
+	@Override
+	public String getUsername() {
+	
+		return email;
+	}
     
     
 }
